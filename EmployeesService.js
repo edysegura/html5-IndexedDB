@@ -15,7 +15,7 @@ export default class EmployeesService {
     })
 
     db.on('populate', async () => {
-      await db.employee.bulkPut([
+      await db.employees.bulkPut([
         {
           name: 'Thomas Hardy',
           email: 'thomashardy@gmail.com',
