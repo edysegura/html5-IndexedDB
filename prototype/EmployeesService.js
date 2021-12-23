@@ -11,7 +11,7 @@ export default class EmployeesService {
     db = new Dexie('EmployeesDB')
 
     db.version(1).stores({
-      employees: '++id,name,email,phone',
+      employees: '++id,name,email,address,phone',
     })
 
     db.on('populate', async () => {
