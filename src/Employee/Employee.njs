@@ -1,7 +1,7 @@
 import Nullstack from 'nullstack';
-import './Home.scss';
+import './Employee.scss';
 
-class Home extends Nullstack {
+class Employee extends Nullstack {
   employees = [];
 
   async hydrate({ _db }) {
@@ -62,4 +62,4 @@ class Home extends Nullstack {
   }
 }
 
-export default Home;
+export default Employee;

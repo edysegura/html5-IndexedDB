@@ -1,5 +1,5 @@
 import Nullstack from 'nullstack';
-import Home from './Employee/Home';
+import Employee from './Employee/Employee';
 
 import './Application.scss';
 
@@ -37,7 +37,7 @@ class Application extends Nullstack {
     return (
       <main>
         <Head />
-        <Home route="/" />
+        <Employee route="/" />
       </main>
     );
   }
