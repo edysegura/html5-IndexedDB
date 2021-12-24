@@ -1,5 +1,5 @@
 import Nullstack from 'nullstack';
-import Home from './Home';
+import Home from './Employee/Home';
 
 import './Application.scss';
 
