@@ -1,26 +1,19 @@
-export const employeesSeed = [
-  {
-    name: 'Thomas Hardy',
-    email: 'thomashardy@gmail.com',
-    address: '89 Chiaroscuro Rd',
-    phone: '1715552222',
-  },
-  {
-    name: 'Dominique Perrier',
-    email: 'dominiqueperrier@mail.com',
-    address: 'Obere Str. 57, Berlin, Germany',
-    phone: '1715552222',
-  },
-  {
-    name: 'Maria Anders',
-    email: 'mariaanders@mail.com',
-    address: '25, rue Lauriston, Paris, France',
-    phone: '1715552222',
-  },
-  {
-    name: 'Fran Wilson',
-    email: 'franwilson@mail.com',
-    address: 'C/ Araquil, 67, Madrid, Spain',
-    phone: '1715552222',
-  },
-];
+import faker from 'faker'
+
+export const employeesSeed = generateEmployees();
+
+// TODO move it to WebWorker
+export function generateEmployees() {
+  const employees = []
+  for (let i = 0; i < 1000; i++) {
+    let firstName = faker.name.firstName() 
+    let lastName = faker.name.lastName()
+    employees.push({
+      name: `${firstName} ${lastName}`,
+      email: faker.internet.email(firstName, lastName).toLowerCase(),
+      address: faker.address.streetAddress(),
+      phone: faker.phone.phoneNumberFormat(),
+    })
+  }
+  return employees
+}
