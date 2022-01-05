@@ -40,7 +40,7 @@ class Employee extends Nullstack {
         <td>{employee.email}</td>
         <td>{employee.address}</td>
         <td>{employee.phone}</td>
-        <td></td>
+        <td>[actions]</td>
       </tr>
     );
   }
@@ -49,7 +49,7 @@ class Employee extends Nullstack {
     return (
       <>
         <h2>Manage Employees</h2>
-        <table>
+        <table class="table table-striped table-hover">
           <Thead />
           <tbody>
             {this.employees.map((employee) => (
