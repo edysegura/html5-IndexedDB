@@ -1,7 +1,5 @@
 import faker from 'faker';
 
-export const employeesSeed = generateEmployees();
-
 // TODO move it to WebWorker
 export function generateEmployees() {
   const employees = [];

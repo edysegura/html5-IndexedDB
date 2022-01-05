@@ -1,6 +1,6 @@
 import Nullstack from 'nullstack';
 import Dexie from 'dexie';
-import { employeesSeed } from './employees-seed';
+import { generateEmployees } from './employees-seed';
 
 class LocalDatabase extends Nullstack {
   static async start(context) {
@@ -12,7 +12,7 @@ class LocalDatabase extends Nullstack {
     });
 
     db.on('populate', async () => {
-      await db.employees.bulkPut(employeesSeed);
+      await db.employees.bulkPut(generateEmployees());
     });
 
     db.open();
