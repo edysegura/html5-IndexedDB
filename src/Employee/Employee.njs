@@ -5,7 +5,7 @@ class Employee extends Nullstack {
   employees = [];
 
   async hydrate({ _db }) {
-    this.employees = await _db.employees.toArray();
+    this.employees = await _db.employees.limit(10).toArray();
   }
 
   prepare({ project, page }) {
