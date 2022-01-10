@@ -1,8 +1,9 @@
-importScripts('https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js')
+importScripts('https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js');
+importScripts('https://cdnjs.cloudflare.com/ajax/libs/dexie/3.2.0/dexie.min.js');
 
 function generateEmployees() {
   const employees = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 10000; i++) {
     let firstName = faker.name.firstName();
     let lastName = faker.name.lastName();
     employees.push({
