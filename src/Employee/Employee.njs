@@ -1,4 +1,6 @@
 import Nullstack from 'nullstack';
+import { Paginator } from './Pagination';
+
 import './Employee.scss';
 
 class Employee extends Nullstack {
@@ -40,7 +42,7 @@ class Employee extends Nullstack {
         <td>{employee.email}</td>
         <td>{employee.address}</td>
         <td>{employee.phone}</td>
-        <td>[actions]</td>
+        <td>&nbsp;</td>
       </tr>
     );
   }
@@ -71,53 +73,6 @@ class Employee extends Nullstack {
             </a>
           </div>
         </div>
-      </div>
-    );
-  }
-
-  renderPaginator() {
-    return (
-      <div class="clearfix">
-        <div class="hint-text">
-          Showing
-          <b>5</b> out of
-          <b>25</b> entries
-        </div>
-        <ul class="pagination">
-          <li class="page-item disabled">
-            <a href="#">Previous</a>
-          </li>
-          <li class="page-item">
-            <a href="#" class="page-link">
-              1
-            </a>
-          </li>
-          <li class="page-item">
-            <a href="#" class="page-link">
-              2
-            </a>
-          </li>
-          <li class="page-item active">
-            <a href="#" class="page-link">
-              3
-            </a>
-          </li>
-          <li class="page-item">
-            <a href="#" class="page-link">
-              4
-            </a>
-          </li>
-          <li class="page-item">
-            <a href="#" class="page-link">
-              5
-            </a>
-          </li>
-          <li class="page-item">
-            <a href="#" class="page-link">
-              Next
-            </a>
-          </li>
-        </ul>
       </div>
     );
   }
