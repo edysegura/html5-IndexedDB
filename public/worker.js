@@ -3,7 +3,7 @@ importScripts('https://cdnjs.cloudflare.com/ajax/libs/dexie/3.2.0/dexie.min.js')
 
 function generateEmployees() {
   const employees = [];
-  for (let i = 0; i < 10000; i++) {
+  for (let i = 0; i < 100000; i++) {
     let firstName = faker.name.firstName();
     let lastName = faker.name.lastName();
     employees.push({
@@ -20,4 +20,5 @@ self.onmessage = (event) => {
   console.log('Inside the worker');
   console.table(generateEmployees(event.data));
   self.postMessage('Done!');
+  self.close();
 };
