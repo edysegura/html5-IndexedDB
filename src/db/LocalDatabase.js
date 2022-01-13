@@ -20,11 +20,9 @@ class LocalDatabase extends Nullstack {
 
   static startBackgroundSeed() {
     console.log('Instantiating web worker');
-    // const workerPath = new URL('./worker.js', import.meta)
     const worker = new Worker('/worker.js');
-    console.log(worker);
     worker.postMessage(1000);
-    worker.onmessage = (event) => console.log({ event });
+    worker.onmessage = (event) => console.log(event.data);
   }
 }
 
