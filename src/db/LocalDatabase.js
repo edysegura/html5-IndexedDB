@@ -21,7 +21,8 @@ class LocalDatabase extends Nullstack {
   static startBackgroundSeed() {
     console.log('Instantiating web worker');
     const worker = new Worker('/worker.js');
-    worker.postMessage(1000);
+    const numberOfRecords = 1000;
+    worker.postMessage(numberOfRecords);
     worker.onmessage = (event) => console.log(event.data);
   }
 }
