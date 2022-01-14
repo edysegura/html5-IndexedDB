@@ -1,9 +1,9 @@
 import faker from 'faker';
 
 // TODO move it to WebWorker
-export function generateEmployees() {
+export function generateEmployees(numberOfRecords = 1000) {
   const employees = [];
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < numberOfRecords; i++) {
     let firstName = faker.name.firstName();
     let lastName = faker.name.lastName();
     employees.push({
