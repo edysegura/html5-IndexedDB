@@ -1,5 +1,9 @@
-importScripts('https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js');
-importScripts('https://cdnjs.cloudflare.com/ajax/libs/dexie/3.2.0/dexie.min.js');
+importScripts(
+  'https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js',
+);
+importScripts(
+  'https://cdnjs.cloudflare.com/ajax/libs/dexie/3.2.0/dexie.min.js',
+);
 
 function generateEmployees(numberOfRecords = 1000) {
   const employees = [];
@@ -25,8 +29,8 @@ async function indexedDBSeed(numberOfRecords) {
 }
 
 self.onmessage = async (event) => {
-  console.log('Seeding employees database');
+  console.log('[Web Workers] Seeding employees database');
   await indexedDBSeed(event.data);
-  self.postMessage('Seeding has been completed!');
+  self.postMessage('[Web Workers] Seeding has been completed!');
   self.close();
 };
