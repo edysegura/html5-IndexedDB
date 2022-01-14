@@ -11,17 +11,18 @@ class LocalDatabase extends Nullstack {
     });
 
     db.on('populate', async () => {
+      const numberOfEmployees = 100
       await db.employees.bulkPut(generateEmployees());
+      // LocalDatabase.startBackgroundSeed();
     });
 
     db.open();
-    LocalDatabase.startBackgroundSeed();
   }
 
   static startBackgroundSeed() {
     console.log('[Web Workers] Instantiating...');
     const worker = new Worker('/worker.js');
-    const numberOfRecords = 1000;
+    const numberOfRecords = 100000;
     worker.postMessage(numberOfRecords);
     worker.onmessage = (event) => console.log(event.data);
   }
