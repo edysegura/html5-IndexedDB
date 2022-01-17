@@ -11,8 +11,8 @@ class LocalDatabase extends Nullstack {
     });
 
     db.on('populate', async () => {
-      const numberOfEmployees = 100
-      await db.employees.bulkPut(generateEmployees());
+      const numberOfEmployees = 1000
+      await db.employees.bulkPut(generateEmployees(numberOfEmployees));
       // LocalDatabase.startBackgroundSeed();
     });
 
@@ -22,8 +22,8 @@ class LocalDatabase extends Nullstack {
   static startBackgroundSeed() {
     console.log('[Web Workers] Instantiating...');
     const worker = new Worker('/worker.js');
-    const numberOfRecords = 100000;
-    worker.postMessage(numberOfRecords);
+    const numberOfEmployees = 100000;
+    worker.postMessage(numberOfEmployees);
     worker.onmessage = (event) => console.log(event.data);
   }
 }
