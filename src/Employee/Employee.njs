@@ -5,9 +5,11 @@ import './Employee.scss';
 
 class Employee extends Nullstack {
   employees = [];
+  numberOfEmployees = 0;
 
   async hydrate({ _db }) {
     this.employees = await _db.employees.limit(10).toArray();
+    this.numberOfEmployees = await _db.employees.count();
   }
 
   prepare({ project, page }) {
@@ -90,7 +92,7 @@ class Employee extends Nullstack {
               ))}
             </tbody>
           </table>
-          <Paginator />
+          <Paginator numberOfRecords={this.numberOfEmployees} />
         </div>
       </div>
     );

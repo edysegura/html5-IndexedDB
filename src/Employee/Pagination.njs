@@ -1,10 +1,10 @@
-export function Paginator() {
+export function Paginator({ numberOfRecords }) {
   return (
     <div class="clearfix">
       <div class="hint-text">
-        Showing
-        <b>5</b> out of
-        <b>25</b> entries
+        Showing 
+        <b>10</b> out of 
+        <b>{numberOfRecords}</b> entries
       </div>
       <ul class="pagination">
         <li class="page-item disabled">
