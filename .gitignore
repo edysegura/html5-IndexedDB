@@ -3,3 +3,4 @@ node_modules/
 .production/
 yarn.lock
 .env
+dist
