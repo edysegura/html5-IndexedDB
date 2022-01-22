@@ -1,5 +1,6 @@
 {
   "recommendations": [
-    "christianmortaro.vscode-nullstack"
+    "christianmortaro.vscode-nullstack",
+    "mikestead.dotenv"
   ]
 }
