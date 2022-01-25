@@ -5,7 +5,7 @@ self.context = {
     "development": false,
     "production": true,
     "mode": "ssg",
-    "key": "64b9f0141b63610517bd0060c1c5677e57142ce1"
+    "key": "b38db3197eb3dc0f55e2fcceb2a3bfec4fd6e12b"
   },
   "project": {
     "viewport": "width=device-width, initial-scale=1, shrink-to-fit=no",
@@ -119,8 +119,8 @@ function install(event) {
     ...self.context.worker.preload.map(withAPI),
     '/manifest.json',
     `/client.css?fingerprint=${self.context.environment.key}`,
-    `/client.js?fingerprint=64b9f0141b63610517bd0060c1c5677e57142ce1, 
-/client.js.LICENSE.txt?fingerprint=64b9f0141b63610517bd0060c1c5677e57142ce1`,
+    `/client.js?fingerprint=b38db3197eb3dc0f55e2fcceb2a3bfec4fd6e12b, 
+/client.js.LICENSE.txt?fingerprint=b38db3197eb3dc0f55e2fcceb2a3bfec4fd6e12b`,
     `/nullstack/${self.context.environment.key}/offline/index.html`
   ].flat();
   event.waitUntil(async function () {
