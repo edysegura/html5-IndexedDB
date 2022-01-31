@@ -32,3 +32,4 @@ Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
 - [An empty database in every pocket](https://www.youtube.com/watch?v=_DuwZSXEwDg)
 - [Nullstack](https://nullstack.app)
 - [Storage for the Web](https://www.youtube.com/watch?v=NNuTV-gjlZQ)
+- [Storing images and files in IndexedDB](https://hacks.mozilla.org/2012/02/storing-images-and-files-in-indexeddb/)
