@@ -5,7 +5,7 @@ self.context = {
     "development": false,
     "production": true,
     "mode": "ssg",
-    "key": "6b25b12d63db64f1e762626ac20b79132188cc03"
+    "key": "e4627bf600fc6371a9a39f652519b9a886e49a6f"
   },
   "project": {
     "domain": "edysegura.com/html5-IndexedDB",
@@ -122,8 +122,8 @@ function install(event) {
     ...self.context.worker.preload.map(withAPI),
     '/manifest.json',
     `/client.css?fingerprint=${self.context.environment.key}`,
-    `/client.js?fingerprint=6b25b12d63db64f1e762626ac20b79132188cc03, 
-/client.js.LICENSE.txt?fingerprint=6b25b12d63db64f1e762626ac20b79132188cc03`,
+    `/client.js?fingerprint=e4627bf600fc6371a9a39f652519b9a886e49a6f, 
+/client.js.LICENSE.txt?fingerprint=e4627bf600fc6371a9a39f652519b9a886e49a6f`,
     `/nullstack/${self.context.environment.key}/offline/index.html`
   ].flat();
   event.waitUntil(async function () {
