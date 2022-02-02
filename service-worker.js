@@ -5,7 +5,7 @@ self.context = {
     "development": false,
     "production": true,
     "mode": "ssg",
-    "key": "71b65a379de932ab3348c85d62c3276a9ecf182f"
+    "key": "669bcd7b2d9dd3fa3ef0027d5fa2a1a8c3bca1b9"
   },
   "project": {
     "domain": "edysegura.com/html5-IndexedDB",
@@ -16,7 +16,7 @@ self.context = {
     "display": "standalone",
     "orientation": "portrait",
     "scope": "/",
-    "root": "/",
+    "root": "/html5-IndexedDB",
     "sitemap": true,
     "favicon": "/favicon-96x96.png",
     "disallow": [],
@@ -30,7 +30,8 @@ self.context = {
       "192": "/icon-192x192.png",
       "384": "/icon-384x384.png",
       "512": "/icon-512x512.png"
-    }
+    },
+    "cdn": "https://edysegura.com/HTML5-IndexedDB/"
   },
   "settings": {},
   "worker": {
@@ -122,8 +123,8 @@ function install(event) {
     ...self.context.worker.preload.map(withAPI),
     '/manifest.json',
     `/client.css?fingerprint=${self.context.environment.key}`,
-    `/client.js?fingerprint=71b65a379de932ab3348c85d62c3276a9ecf182f, 
-/client.js.LICENSE.txt?fingerprint=71b65a379de932ab3348c85d62c3276a9ecf182f`,
+    `/client.js?fingerprint=669bcd7b2d9dd3fa3ef0027d5fa2a1a8c3bca1b9, 
+/client.js.LICENSE.txt?fingerprint=669bcd7b2d9dd3fa3ef0027d5fa2a1a8c3bca1b9`,
     `/nullstack/${self.context.environment.key}/offline/index.html`
   ].flat();
   event.waitUntil(async function () {
