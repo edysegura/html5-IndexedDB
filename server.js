@@ -4,7 +4,9 @@ import Application from './src/Application';
 const context = Nullstack.start(Application);
 
 context.start = async function start() {
-  // https://nullstack.app/application-startup
+  const { project } = context;
+  project.root = '/html5-IndexedDB'
+  project.cdn = 'https://edysegura.com/HTML5-IndexedDB/'
 }
 
 export default context;
