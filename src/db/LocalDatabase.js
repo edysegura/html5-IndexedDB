@@ -13,7 +13,7 @@ class LocalDatabase extends Nullstack {
     db.on('populate', async () => {
       const numberOfEmployees = 1000
       await db.employees.bulkPut(generateEmployees(numberOfEmployees));
-      // LocalDatabase.startBackgroundSeed();
+      LocalDatabase.startBackgroundSeed();
     });
 
     db.open();
