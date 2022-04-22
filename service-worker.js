@@ -5,7 +5,8 @@ self.context = {
     "development": false,
     "production": true,
     "mode": "ssg",
-    "key": "0848e56ea8d70e703b1873a992570650636edc24"
+    "key": "66570dace071addbbf10183570534f2cb3b34675",
+    "name": ""
   },
   "project": {
     "domain": "edysegura.com/html5-IndexedDB",
@@ -60,11 +61,10 @@ function withAPI(url) {
 
 async function extractData(response) {
   const html = await response.clone().text();
-  const instancesLookup = 'window.instances = ';
-  const instances = html.split("\n").find((line) => line.indexOf(instancesLookup) > -1).split(instancesLookup)[1].slice(0, -1);
-  const pageLookup = 'window.page = ';
-  const page = html.split("\n").find((line) => line.indexOf(pageLookup) > -1).split(pageLookup)[1].slice(0, -1);
-  const json = `{"instances": ${instances}, "page": ${page}}`;
+  const stateLookup = '<meta name="nullstack" content="';
+  const state = html.split("\n").find((line) => line.indexOf(stateLookup) > -1).split(stateLookup)[1].slice(0, -2);
+  const { instances, page } = JSON.parse(decodeURIComponent(state));
+  const json = JSON.stringify({ instances, page });
   return new Response(json, {
     headers: { 'Content-Type': 'application/json' }
   });
@@ -120,10 +120,9 @@ function install(event) {
   const urls = [
     '/',
     ...self.context.worker.preload.map(withAPI),
-    '/manifest.json',
+    '/manifest.webmanifest',
     `/client.css?fingerprint=${self.context.environment.key}`,
-    `/client.js?fingerprint=0848e56ea8d70e703b1873a992570650636edc24, 
-/client.js.LICENSE.txt?fingerprint=0848e56ea8d70e703b1873a992570650636edc24`,
+    `/client.js?fingerprint=66570dace071addbbf10183570534f2cb3b34675`,
     `/nullstack/${self.context.environment.key}/offline/index.html`
   ].flat();
   event.waitUntil(async function () {

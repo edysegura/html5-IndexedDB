@@ -1,0 +1,3 @@
+User-Agent: *
+Allow: /
+Sitemap: https://edysegura.com/html5-IndexedDB/sitemap.xml
