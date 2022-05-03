@@ -5,7 +5,7 @@ self.context = {
     "development": false,
     "production": true,
     "mode": "ssg",
-    "key": "b57b879f7389183433437c36eaf884680a170a39",
+    "key": "8e2efcc734a529cac6267658d99745853400d40f",
     "name": ""
   },
   "project": {
@@ -122,7 +122,7 @@ function install(event) {
     ...self.context.worker.preload.map(withAPI),
     '/manifest.webmanifest',
     `/client.css?fingerprint=${self.context.environment.key}`,
-    `/client.js?fingerprint=b57b879f7389183433437c36eaf884680a170a39`,
+    `/client.js?fingerprint=8e2efcc734a529cac6267658d99745853400d40f`,
     `/nullstack/${self.context.environment.key}/offline/index.html`
   ].flat();
   event.waitUntil(async function () {
