@@ -4,18 +4,16 @@
   "private": true,
   "description": "",
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "nullstack": "^0.15.2"
   },
   "scripts": {
     "start": "npx nullstack start",
-    "prebuild": "rimraf dist",
     "build": "npx nullstack build --mode=ssg --output=dist"
   },
   "dependencies": {
     "dexie": "^3.2.0",
-    "faker": "^5.5.3",
-    "rimraf": "^3.0.2"
+    "faker": "^5.5.3"
   }
 }
