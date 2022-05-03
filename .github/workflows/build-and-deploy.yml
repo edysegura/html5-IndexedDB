@@ -13,6 +13,7 @@ jobs:
           NULLSTACK_PROJECT_NAME: HTML5 IndexedDB
           NULLSTACK_PROJECT_DOMAIN: edysegura.com/html5-IndexedDB
           NULLSTACK_PROJECT_COLOR: \#EEE
+          NULLSTACK_WORKER_CDN: "https://edysegura.com/html5-IndexedDB"
         run: |
           npm ci
           npm run build
