@@ -11,7 +11,6 @@ class Application extends Nullstack {
   renderHead() {
     return (
       <head>
-        <meta href="/html5-IndexedDB" />
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <link href="https://maxcdn.bootstrapcdn.com" rel="preconnect" />
         <link
