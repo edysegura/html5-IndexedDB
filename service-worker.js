@@ -5,7 +5,7 @@ self.context = {
     "development": false,
     "production": true,
     "mode": "ssg",
-    "key": "25b5fceac2c54f05b616cd8590852429bdc0be7a",
+    "key": "5d80b6b2fcca7a737f5b9f89fd1b27c764da82aa",
     "name": ""
   },
   "project": {
@@ -47,129 +47,150 @@ self.context = {
 };
 
 async function load(event) {
-  const response = await event.preloadResponse;
-  if (response) return response;
-  return await fetch(event.request);
+    const response = await event.preloadResponse;
+    if (response) return response;
+    return await fetch(event.request);
 }
+
 
 function withAPI(url) {
-  let [path, query] = url.split('?');
-  if (path.includes('.')) return url;
-  path += '/index.json';
-  return query ? [url, `${path}?${query}`] : [url, path];
+    let [path, query] = url.split("?");
+    if (path.includes(".")) return url;
+    path += "/index.json";
+    return query ? [
+        url,
+        `${path}?${query}`
+    ] : [
+        url,
+        path
+    ];
+}
+async function extractData(response) {
+    const html = await response.clone().text();
+    const stateLookup = '<meta name="nullstack" content="';
+    const state = html.split("\n").find((line)=>line.indexOf(stateLookup) > -1
+    ).split(stateLookup)[1].slice(0, -2);
+    const { instances , page  } = JSON.parse(decodeURIComponent(state));
+    const json = JSON.stringify({
+        instances,
+        page
+    });
+    return new Response(json, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
 }
 
-async function extractData(response) {
-  const html = await response.clone().text();
-  const stateLookup = '<meta name="nullstack" content="';
-  const state = html.split("\n").find((line) => line.indexOf(stateLookup) > -1).split(stateLookup)[1].slice(0, -2);
-  const { instances, page } = JSON.parse(decodeURIComponent(state));
-  const json = JSON.stringify({ instances, page });
-  return new Response(json, {
-    headers: { 'Content-Type': 'application/json' }
-  });
-}
 
 async function cacheFirst(event) {
-  const cache = await caches.open(self.context.environment.key);
-  const cachedResponse = await cache.match(event.request);
-  if(cachedResponse) return cachedResponse;
-  const response = await load(event);
-  await cache.put(event.request, response.clone());
-  return response;
+    const cache = await caches.open(self.context.environment.key);
+    const cachedResponse = await cache.match(event.request);
+    if (cachedResponse) return cachedResponse;
+    const response = await load(event);
+    await cache.put(event.request, response.clone());
+    return response;
 }
+
 
 async function staleWhileRevalidate(event) {
-  const cache = await caches.open(self.context.environment.key);
-  const cachedResponse = await cache.match(event.request);
-  const networkResponsePromise = load(event);
-  event.waitUntil(async function() {
-    const networkResponse = await networkResponsePromise;
-    await cache.put(event.request, networkResponse.clone());
-  }());
-  return cachedResponse || networkResponsePromise;
+    const cache = await caches.open(self.context.environment.key);
+    const cachedResponse = await cache.match(event.request);
+    const networkResponsePromise = load(event);
+    event.waitUntil(async function() {
+        const networkResponse = await networkResponsePromise;
+        await cache.put(event.request, networkResponse.clone());
+    }());
+    return cachedResponse || networkResponsePromise;
 }
+
 
 async function networkFirst(event) {
-  const cache = await caches.open(self.context.environment.key);
-  try {
-    const networkResponse = await load(event);
-    await cache.put(event.request, networkResponse.clone());
-    return networkResponse;
-  } catch(error) {
-    return await cache.match(event.request);
-  }
+    const cache = await caches.open(self.context.environment.key);
+    try {
+        const networkResponse = await load(event);
+        await cache.put(event.request, networkResponse.clone());
+        return networkResponse;
+    } catch (error) {
+        return await cache.match(event.request);
+    }
 }
+
 
 async function networkDataFirst(event) {
-  const cache = await caches.open(self.context.environment.key);
-  const url = new URL(event.request.url);
-  const api = url.pathname + '/index.json';
-  try {
-    const response = await load(event);
-    const dataResponse = await extractData(response);
-    await cache.put(api, dataResponse);
-    return response;
-  } catch (error) {
-    const cachedDataResponse = await cache.match(url);
-    return cachedDataResponse || await cache.match(`/nullstack/${self.context.environment.key}/offline/index.html`);
-  }
+    const cache = await caches.open(self.context.environment.key);
+    const url = new URL(event.request.url);
+    const api = url.pathname + "/index.json";
+    try {
+        const response = await load(event);
+        const dataResponse = await extractData(response);
+        await cache.put(api, dataResponse);
+        return response;
+    } catch (error) {
+        const cachedDataResponse = await cache.match(url);
+        return cachedDataResponse || await cache.match(`/nullstack/${self.context.environment.key}/offline/index.html`);
+    }
 }
+
 
 function install(event) {
-  const urls = [
-    '/',
-    ...self.context.worker.preload.map(withAPI),
-    '/manifest.webmanifest',
-    `/client.css?fingerprint=${self.context.environment.key}`,
-    `/client.js?fingerprint=25b5fceac2c54f05b616cd8590852429bdc0be7a`,
-    `/nullstack/${self.context.environment.key}/offline/index.html`
-  ].flat();
-  event.waitUntil(async function () {
-    const cache = await caches.open(self.context.environment.key);
-    await cache.addAll([...new Set(urls)]);
-    const homeResponse = await cache.match('/');
-    const homeDataResponse = await extractData(homeResponse);
-    await cache.put('/index.json', homeDataResponse);
-    self.skipWaiting();
-  }());
+    const urls = [
+        "/",
+        ...self.context.worker.preload.map(withAPI),
+        "/manifest.webmanifest",
+        `/client.js?fingerprint=${self.context.environment.key}`,
+        `/client.css?fingerprint=${self.context.environment.key}`,
+        ,
+        `/nullstack/${self.context.environment.key}/offline/index.html`
+    ].flat();
+    event.waitUntil(async function() {
+        const cache = await caches.open(self.context.environment.key);
+        await cache.addAll([
+            ...new Set(urls)
+        ]);
+        const homeResponse = await cache.match("/");
+        const homeDataResponse = await extractData(homeResponse);
+        await cache.put("/index.json", homeDataResponse);
+        self.skipWaiting();
+    }());
 }
+self.addEventListener("install", install);
 
-self.addEventListener('install', install);
 
 function activate(event) {
-  event.waitUntil(async function() {
-    const cacheNames = await caches.keys();
-    const cachesToDelete = cacheNames.filter(cacheName => cacheName !== self.context.environment.key);
-    await Promise.all(cachesToDelete.map((cacheName) => caches.delete(cacheName)));
-    if (self.registration.navigationPreload) {
-      await self.registration.navigationPreload.enable();
-    }
-    self.clients.claim();
-  }());
+    event.waitUntil(async function() {
+        const cacheNames = await caches.keys();
+        const cachesToDelete = cacheNames.filter((cacheName)=>cacheName !== self.context.environment.key
+        );
+        await Promise.all(cachesToDelete.map((cacheName)=>caches.delete(cacheName)
+        ));
+        if (self.registration.navigationPreload) {
+            await self.registration.navigationPreload.enable();
+        }
+        self.clients.claim();
+    }());
 }
+self.addEventListener("activate", activate);
 
-self.addEventListener('activate', activate);
 
 function staticStrategy(event) {
-  event.waitUntil(async function () {
-    const url = new URL(event.request.url);
-    if (url.origin !== location.origin) return;
-    if (event.request.method !== 'GET') return;
-    if (url.pathname.indexOf('/nullstack/') > -1) {
-      return event.respondWith(networkFirst(event));
-    }
-    if (url.pathname.indexOf(self.context.environment.key) > -1) {
-      return event.respondWith(cacheFirst(event));
-    }
-    if (url.pathname.indexOf('.') > -1) {
-      return event.respondWith(staleWhileRevalidate(event));
-    }
-    if (url.pathname === '/') {
-      return event.respondWith(networkFirst(event));
-    }
-    event.respondWith(networkDataFirst(event));
-  }());
+    event.waitUntil(async function() {
+        const url = new URL(event.request.url);
+        if (url.origin !== location.origin) return;
+        if (event.request.method !== "GET") return;
+        if (url.pathname.indexOf("/nullstack/") > -1) {
+            return event.respondWith(networkFirst(event));
+        }
+        if (url.pathname.indexOf(self.context.environment.key) > -1) {
+            return event.respondWith(cacheFirst(event));
+        }
+        if (url.pathname.indexOf(".") > -1) {
+            return event.respondWith(staleWhileRevalidate(event));
+        }
+        if (url.pathname === "/") {
+            return event.respondWith(networkFirst(event));
+        }
+        event.respondWith(networkDataFirst(event));
+    }());
 }
-
-self.addEventListener('fetch', staticStrategy);
+self.addEventListener("fetch", staticStrategy);
