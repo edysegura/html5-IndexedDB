@@ -6,11 +6,12 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "nullstack": "^0.15.2"
+    "nullstack": "^0.15.8"
   },
   "scripts": {
     "start": "npx nullstack start",
-    "build": "npx nullstack build --mode=ssg --output=dist"
+    "build": "npx nullstack build --mode=ssg --output=dist",
+    "reinstall": "rm -rf node_modules package-lock.json yarn.lock .development .production && npm install"
   },
   "dependencies": {
     "dexie": "^3.2.0",
