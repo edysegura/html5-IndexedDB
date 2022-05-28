@@ -1,11 +1,11 @@
-import Nullstack from 'nullstack';
-import Application from './src/Application';
-import LocalDatabase from './src/db/LocalDatabase';
+import Nullstack from 'nullstack'
+import Application from './src/Application'
+import LocalDatabase from './src/db/LocalDatabase'
 
-const context = Nullstack.start(Application);
+const context = Nullstack.start(Application)
 
 context.start = async function start() {
-  await LocalDatabase.start(context);
+  await LocalDatabase.start(context)
 }
 
-export default context;
+export default context

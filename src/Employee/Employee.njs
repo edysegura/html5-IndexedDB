@@ -1,20 +1,20 @@
-import Nullstack from 'nullstack';
-import { Paginator } from './Pagination';
+import Nullstack from 'nullstack'
+import { Paginator } from './Pagination'
 
-import './Employee.scss';
+import './Employee.scss'
 
 class Employee extends Nullstack {
-  employees = [];
-  numberOfEmployees = 0;
+  employees = []
+  numberOfEmployees = 0
 
   async hydrate({ _db }) {
-    this.employees = await _db.employees.limit(10).toArray();
-    this.numberOfEmployees = await _db.employees.count();
+    this.employees = await _db.employees.limit(10).toArray()
+    this.numberOfEmployees = await _db.employees.count()
   }
 
-  prepare({ project, page }) {
-    page.title = `${project.name}`;
-    page.description = `${project.name} was made with Nullstack`;
+  launch({ project, page }) {
+    page.title = `${project.name}`
+    page.description = `${project.name} was made with Nullstack`
   }
 
   renderThead() {
@@ -31,7 +31,7 @@ class Employee extends Nullstack {
           <th>Actions</th>
         </tr>
       </thead>
-    );
+    )
   }
 
   renderRow({ employee }) {
@@ -46,7 +46,7 @@ class Employee extends Nullstack {
         <td>{employee.phone}</td>
         <td>&nbsp;</td>
       </tr>
-    );
+    )
   }
 
   renderTableTitle() {
@@ -76,7 +76,7 @@ class Employee extends Nullstack {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   render() {
@@ -95,8 +95,8 @@ class Employee extends Nullstack {
           <Paginator numberOfRecords={this.numberOfEmployees} />
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Employee;
+export default Employee

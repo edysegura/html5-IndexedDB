@@ -1,11 +1,11 @@
-import Nullstack from 'nullstack';
-import Employee from './Employee/Employee';
+import Nullstack from 'nullstack'
+import Employee from './Employee/Employee'
 
-import './Application.scss';
+import './Application.scss'
 
 class Application extends Nullstack {
   prepare({ page }) {
-    page.locale = 'en-US';
+    page.locale = 'en-US'
   }
 
   renderHead() {
@@ -30,7 +30,7 @@ class Application extends Nullstack {
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         />
       </head>
-    );
+    )
   }
 
   render() {
@@ -39,8 +39,8 @@ class Application extends Nullstack {
         <Head />
         <Employee route="*" />
       </main>
-    );
+    )
   }
 }
 
-export default Application;
+export default Application

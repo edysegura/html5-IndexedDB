@@ -42,5 +42,5 @@ export function Paginator({ numberOfRecords }) {
         </li>
       </ul>
     </div>
-  );
+  )
 }
