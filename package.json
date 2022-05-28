@@ -2,11 +2,9 @@
   "name": "html5-indexedDB",
   "version": "0.0.1",
   "private": true,
-  "description": "",
-  "author": "",
   "license": "MIT",
   "devDependencies": {
-    "nullstack": "^0.15.8"
+    "nullstack": "^0.15.10"
   },
   "scripts": {
     "start": "npx nullstack start",
