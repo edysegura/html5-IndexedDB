@@ -29,6 +29,7 @@ Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
 
 ## References
 
+- [IndexedDB - What is it, and when you should choose it](https://www.youtube.com/watch?v=-AzFQN9Vp7k)
 - [An empty database in every pocket](https://www.youtube.com/watch?v=_DuwZSXEwDg)
 - [Nullstack](https://nullstack.app)
 - [Storage for the Web](https://www.youtube.com/watch?v=NNuTV-gjlZQ)
