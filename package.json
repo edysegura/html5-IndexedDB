@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "devDependencies": {
-    "nullstack": "^0.15.10"
+    "nullstack": "^0.17.4"
   },
   "scripts": {
     "start": "npx nullstack start",
