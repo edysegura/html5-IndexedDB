@@ -5,7 +5,7 @@ self.context = {
     "development": false,
     "production": true,
     "mode": "ssg",
-    "key": "682b587a71a699ecd3a5e9e9fdc131fa63edb44a",
+    "key": "a0cfb41c33b1d3c862437dea7c8dd30d7d57b632",
     "name": ""
   },
   "project": {
@@ -38,6 +38,8 @@ self.context = {
     "enabled": true,
     "fetching": false,
     "preload": [],
+    "staleWhileRevalidate": [],
+    "cacheFirst": [],
     "headers": {},
     "api": "",
     "cdn": "https://edysegura.com/html5-IndexedDB",
@@ -49,12 +51,20 @@ self.context = {
 async function load(event) {
     const response = await event.preloadResponse;
     if (response) return response;
-    return await fetch(event.request);
+    return fetch(event.request);
+}
+
+
+function match(serializedMatcher, url) {
+    const matcher = JSON.parse(serializedMatcher);
+    return new RegExp(matcher.source, matcher.flags).test(url.href);
 }
 
 
 function withAPI(url) {
-    let [path, query] = url.split("?");
+    const fragments = url.split("?");
+    let path = fragments[0];
+    const query = fragments[1];
     if (path.includes(".")) return url;
     path += "/index.json";
     return query ? [
@@ -112,7 +122,7 @@ async function networkFirst(event) {
         await cache.put(event.request, networkResponse.clone());
         return networkResponse;
     } catch (error) {
-        return await cache.match(event.request);
+        return cache.match(event.request);
     }
 }
 
@@ -120,7 +130,7 @@ async function networkFirst(event) {
 async function networkDataFirst(event) {
     const cache = await caches.open(self.context.environment.key);
     const url = new URL(event.request.url);
-    const api = url.pathname + "/index.json";
+    const api = `${url.pathname}/index.json`;
     try {
         const response = await load(event);
         const dataResponse = await extractData(response);
@@ -128,7 +138,7 @@ async function networkDataFirst(event) {
         return response;
     } catch (error) {
         const cachedDataResponse = await cache.match(url);
-        return cachedDataResponse || await cache.match(`/nullstack/${self.context.environment.key}/offline/index.html`);
+        return cachedDataResponse || cache.match(`/nullstack/${self.context.environment.key}/offline/index.html`);
     }
 }
 
@@ -140,8 +150,8 @@ function install(event) {
         "/manifest.webmanifest",
         `/client.js?fingerprint=${self.context.environment.key}`,
         `/client.css?fingerprint=${self.context.environment.key}`,
-        ,
-        `/nullstack/${self.context.environment.key}/offline/index.html`
+        
+        `/nullstack/${self.context.environment.key}/offline/index.html`, 
     ].flat();
     event.waitUntil(async function() {
         const cache = await caches.open(self.context.environment.key);
@@ -175,13 +185,24 @@ self.addEventListener("activate", activate);
 
 function staticStrategy(event) {
     event.waitUntil(async function() {
-        const url = new URL(event.request.url);
-        if (url.origin !== location.origin) return;
+        var ref;
         if (event.request.method !== "GET") return;
+        const url = new URL(event.request.url);
+        for (const matcher of self.context.worker.staleWhileRevalidate){
+            if (match(matcher, url)) {
+                return event.respondWith(staleWhileRevalidate(event));
+            }
+        }
+        for (const matcher1 of self.context.worker.cacheFirst){
+            if (match(matcher1, url)) {
+                return event.respondWith(cacheFirst(event));
+            }
+        }
+        if (url.origin !== location.origin) return;
         if (url.pathname.indexOf("/nullstack/") > -1) {
             return event.respondWith(networkFirst(event));
         }
-        if (url.pathname.indexOf(self.context.environment.key) > -1) {
+        if (((ref = url.searchParams) === null || ref === void 0 ? void 0 : ref.get("fingerprint")) === self.context.environment.key) {
             return event.respondWith(cacheFirst(event));
         }
         if (url.pathname.indexOf(".") > -1) {
